@@ -1,25 +1,22 @@
 buildscript {
     repositories {
-        jcenter()
+        google()
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.novoda:bintray-release:0.4.0'
     }
 }
 
 apply plugin: 'com.android.library'
 apply plugin: 'idea'
-apply plugin: 'bintray-release'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '25.0.2'
 
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 23
-        versionCode 22
-        versionName '2.7.1'
     }
 
     compileOptions {
@@ -36,14 +33,25 @@ idea {
 }
 
 dependencies {
-    compile 'org.slf4j:slf4j-android:1.7.21'
+    implementation 'org.slf4j:slf4j-android:1.7.34'
 }
 
-publish {
-    userOrg = 'alexeydanilov'
-    groupId = 'com.danikula'
-    artifactId = 'videocache'
-    publishVersion = android.defaultConfig.versionName
-    description = 'Cache support for android VideoView'
-    website = 'https://github.com/danikula/AndroidVideoCache'
+publishing {
+    publications {
+        myPulication(MavenPublication) {
+            groupId 'com.danikula'
+            version '2.7.1'
+            artifactId 'videocache'
+            artifact("$buildDir/outputs/aar/library-release.aar")
+        }
+    }
 }
+
+//publish {
+//    userOrg = 'alexeydanilov'
+//    groupId = 'com.danikula'
+//    artifactId = 'videocache'
+//    publishVersion = android.defaultConfig.versionName
+//    description = 'Cache support for android VideoView'
+//    website = 'https://github.com/danikula/AndroidVideoCache'
+//}
